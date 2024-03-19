@@ -32,7 +32,11 @@ public class FPSController : MonoBehaviour
 
     }
 
-    
+    public void IncreaseScore()
+    {
+        player.Score += 5;
+        Debug.Log(player.Score);
+    }
 
     //public void DoorOpen()
     //{
@@ -59,6 +63,11 @@ public class FPSController : MonoBehaviour
     {
         moveVert = Input.GetAxis("Vertical") * speed;
         moveHor = Input.GetAxis("Horizontal") * speed;
+
+        while (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            speed *= 2;
+        }
         Vector3 move = new Vector3(moveHor, 0, moveVert);
         move = transform.rotation * move;
         transform.position += move * Time.deltaTime;

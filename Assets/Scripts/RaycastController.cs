@@ -6,6 +6,8 @@ public class RaycastController : MonoBehaviour
 {
     private Player player;
     private FPSController playerController;
+
+    RaycastHit hit;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,17 +26,16 @@ public class RaycastController : MonoBehaviour
     
     public void PickupItem()
     {
-        RaycastHit hit;
-
+        
         if (Physics.Raycast(transform.position,transform.forward, out hit, 100f))
         {
             if (hit.collider.CompareTag("Pickup"))
             {
-                player.Score += 5;
+                playerController.IncreaseScore();
                 Destroy(hit.collider.gameObject);
                 Debug.Log("Hit Pickup");
             }
         }
-        Debug.Log(player.Score);
+        //Debug.Log(player.Score);
     }
 }

@@ -14,28 +14,26 @@ public class FPSController : MonoBehaviour
     private float rotX;
     private float rotY;
 
-    public Player player;
-
     //private RaycastHit hit;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = new Player();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        PlayerControl();
+        Sprint();
+        CameraControl();
         //DoorOpen();
-
     }
 
-    public void IncreaseScore()
+    void FixedUpdate()
     {
-        player.Score += 5;
-        Debug.Log(player.Score);
+        PlayerControl();
+
     }
 
     //public void DoorOpen()
@@ -63,20 +61,30 @@ public class FPSController : MonoBehaviour
     {
         moveVert = Input.GetAxis("Vertical") * speed;
         moveHor = Input.GetAxis("Horizontal") * speed;
-
-        while (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            speed *= 2;
-        }
         Vector3 move = new Vector3(moveHor, 0, moveVert);
         move = transform.rotation * move;
         transform.position += move * Time.deltaTime;
+    }
 
+    public void CameraControl()
+    {
         rotX = Input.GetAxis("Mouse X") * cameraSens;
         rotY -= Input.GetAxis("Mouse Y") * cameraSens;
         rotY = Mathf.Clamp(rotY, -90f, 90f);
 
         transform.Rotate(0, rotX, 0);
         playerCamera.transform.localRotation = Quaternion.Euler(rotY, 0, 0);
+    }
+
+    public void Sprint()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            speed = 10.0f;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speed = 5.0f;
+        }
     }
 }

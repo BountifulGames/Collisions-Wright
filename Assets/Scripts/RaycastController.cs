@@ -5,13 +5,13 @@ using UnityEngine;
 public class RaycastController : MonoBehaviour
 {
     private Player player;
-    private FPSController playerController;
+    private GameController playerController;
 
     RaycastHit hit;
     // Start is called before the first frame update
     void Start()
     {
-        playerController = GetComponentInParent<FPSController>();
+        playerController = GetComponentInParent<GameController>();
         player = playerController.player;
     }
 
@@ -27,7 +27,7 @@ public class RaycastController : MonoBehaviour
     public void PickupItem()
     {
         
-        if (Physics.Raycast(transform.position,transform.forward, out hit, 100f))
+        if (Physics.Raycast(transform.position,transform.forward, out hit, 2f))
         {
             if (hit.collider.CompareTag("Pickup"))
             {

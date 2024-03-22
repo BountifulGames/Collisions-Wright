@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RaycastController : MonoBehaviour
 {
+    [SerializeField] private GameObject playerObject;
     private Player player;
     private GameController playerController;
 
@@ -11,7 +12,7 @@ public class RaycastController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerController = GetComponentInParent<GameController>();
+        playerController = playerObject.GetComponent<GameController>();
         player = playerController.player;
     }
 

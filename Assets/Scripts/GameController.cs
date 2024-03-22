@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] TMP_Text healthText;
+    [SerializeField] TMP_Text scoreText;
+
     public Player player;
 
     // Start is called before the first frame update
     void Start()
     {
         player = new Player();
+        Debug.Log(player.Health);
 
     }
 
@@ -21,16 +26,22 @@ public class GameController : MonoBehaviour
     public void IncreaseScore()
     {
         player.Score += 5;
-        Debug.Log(player.Score);
+        UpdateUI();
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (other.gameObject.CompareTag("Trap"))
+        if (hit.gameObject.CompareTag("Trap"))
         {
             player.Health -= 10;
-            Debug.Log(player.Health);
-            Destroy(other.gameObject);
+            Destroy(hit.gameObject);
+            UpdateUI();
         }
+    }
+
+    private void UpdateUI()
+    {
+        healthText.text = "Health: " + player.Health;
+        scoreText.text = "Score: " + player.Score;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RaycastController : MonoBehaviour
@@ -23,6 +24,11 @@ public class RaycastController : MonoBehaviour
         {
             PickupItem();
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            DestroyTrap();
+        }
     }
     
     public void PickupItem()
@@ -38,5 +44,17 @@ public class RaycastController : MonoBehaviour
             }
         }
         //Debug.Log(player.Score);
+    }
+
+    public void DestroyTrap()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        {
+            if (hit.collider.CompareTag("Trap"))
+            {
+                Destroy(hit.collider.gameObject);
+                Debug.Log("Destroy Trap");
+            }
+        }
     }
 }

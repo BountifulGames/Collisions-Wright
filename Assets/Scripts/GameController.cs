@@ -1,20 +1,27 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] TMP_Text healthText;
     [SerializeField] TMP_Text scoreText;
+    [SerializeField] TMP_Text menuMessage;
+    [SerializeField] GameObject menuPanel;
 
     public Player player;
+    private bool playerWin;
 
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         player = new Player();
-        Debug.Log(player.Health);
+        playerWin = false;
 
     }
 
@@ -27,6 +34,12 @@ public class GameController : MonoBehaviour
     {
         player.Score += 5;
         UpdateUI();
+
+        if (player.Score == 50)
+        {
+            playerWin = true;
+            MenuOpen();
+        }
     }
 
     public void OnControllerColliderHit(ControllerColliderHit hit)
@@ -36,6 +49,11 @@ public class GameController : MonoBehaviour
             player.Health -= 10;
             Destroy(hit.gameObject);
             UpdateUI();
+
+            if (player.Health == 0)
+            {
+                MenuOpen();
+            }
         }
     }
 
@@ -43,5 +61,26 @@ public class GameController : MonoBehaviour
     {
         healthText.text = "Health: " + player.Health;
         scoreText.text = "Score: " + player.Score;
+    }
+
+    private void MenuOpen()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (playerWin)
+        {
+            menuMessage.text = "YOU WIN!!!";
+        } else
+        {
+            menuMessage.text = "You died...";
+        }
+        menuPanel.SetActive(true);
+        gameObject.GetComponent<FirstPersonController>().enabled = false;
+    }
+
+    public void OnReturnButtonHit()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

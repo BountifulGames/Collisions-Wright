@@ -5,6 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//////////////////////////////////////////////
+//Assignment/Lab/Project: Collisions
+//Name: Hunter Wright
+//Section: SGD.213.2172
+//Instructor: Brian Sowers
+//Date: 3/25/2024
+/////////////////////////////////////////////
+
 public class GameController : MonoBehaviour
 {
     [SerializeField] TMP_Text healthText;

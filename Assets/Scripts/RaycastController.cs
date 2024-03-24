@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+//////////////////////////////////////////////
+//Assignment/Lab/Project: Collisions
+//Name: Hunter Wright
+//Section: SGD.213.2172
+//Instructor: Brian Sowers
+//Date: 3/25/2024
+/////////////////////////////////////////////
+
 public class RaycastController : MonoBehaviour
 {
     [SerializeField] private GameObject playerObject;

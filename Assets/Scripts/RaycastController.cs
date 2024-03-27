@@ -16,6 +16,8 @@ public class RaycastController : MonoBehaviour
     [SerializeField] private GameObject playerObject;
     private Player player;
     private GameController playerController;
+    private bool isMainCamera;
+    GameObject securityCam;
 
     RaycastHit hit;
     // Start is called before the first frame update
@@ -23,6 +25,7 @@ public class RaycastController : MonoBehaviour
     {
         playerController = playerObject.GetComponent<GameController>();
         player = playerController.player;
+        isMainCamera = true;
     }
 
     // Update is called once per frame
@@ -36,6 +39,18 @@ public class RaycastController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             DestroyTrap();
+            ChangeCamera();
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Got to Keycode.Q");
+            if (!isMainCamera)
+            {
+                Debug.Log("Got to here");
+                securityCam.GetComponent<Camera>().enabled = false;
+                gameObject.GetComponent<Camera>().enabled = true;
+                isMainCamera = true;
+            }
         }
     }
     
@@ -62,6 +77,20 @@ public class RaycastController : MonoBehaviour
             {
                 Destroy(hit.collider.gameObject);
                 Debug.Log("Destroy Trap");
+            }
+        }
+    }
+
+    public void ChangeCamera()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out hit))
+        {
+            if (hit.collider.CompareTag("Camera"))
+            {
+                securityCam = hit.collider.transform.GetChild(0).gameObject;
+                securityCam.GetComponent<Camera>().enabled = true;
+                gameObject.GetComponent<Camera>().enabled = false;
+                isMainCamera = false;
             }
         }
     }
